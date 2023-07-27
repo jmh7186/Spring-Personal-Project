@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.PJ.mapper.BoardMapper">
+	<select id="findAll">select * from board</select>
+	<select id="findOneById">select * from board where idx=#{idx}</select>
+	<delete id="deleteById">update board set isdel=1 where idx=#{idx}</delete>
+	<select id="findPage">
+		<![CDATA[
+		select * from (select rownum num, t.* from (select * from board start with parentid=0 connect by prior idx=parentid order siblings by tab asc,idx desc) t where rownum<=#{endRow} order by rownum desc) where rownum <= #{countPerPage} order by num asc
+		]]>
+	</select>
+	<select id="totalCount">select count(*) from board</select>
+	<insert id="insert">insert into board values(board_idx_seq.nextval, #{title},#{content},0,0,0,#{writeid},sysdate,#{filename, jdbcType=VARCHAR},0,'일반게시판')</insert>
+	<update id="updateById">update board set title=#{title}, content=#{content}, filename=#{filename, jdbcType=VARCHAR} where idx=#{idx}</update>
+	<insert id="replyInsert">insert into board values(board_idx_seq.nextval, #{title},#{content},0,#{writeid},#{parentid},#{tab},sysdate,#{filename, jdbcType=VARCHAR},0,'일반게시판')</insert>
+	<select id="findList">
+		<![CDATA[
+		select * from (select rownum num, t.* from (select * from board start with parentid=0 connect by prior idx=parentid order siblings by tab asc,idx desc) t order by rownum desc) where #{kind} like '%'||#{keyword}||'%' order by num asc
+		]]>
+	</select>
+	<select id="totalFindCount">select count(*) from board where title like '%'||#{keyword}||'%'</select>
+	<update id="viewcountUp">update board set viewcount=viewcount+1 where idx=#{idx}</update>
+</mapper>
