@@ -3,8 +3,7 @@ package com.my.PJ.chat;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import jakarta.websocket.OnClose;
@@ -20,24 +19,22 @@ import jakarta.websocket.server.ServerEndpoint;
 public class ChatService {
 //	static Set<Session> sessions = new HashSet<Session>();
 	static HashMap<String, Session> userList = new HashMap<String, Session>();
-	HashMap<String, Object> msgHM = new HashMap<String, Object>();
 
 	@OnOpen
 	public void open(Session session, @PathParam("id") String id) {
 		System.out.println("Open");
 		userList.put(id, session);
 		Set<String> keys = userList.keySet();
+		JSONObject json = new JSONObject();
 
 		System.out.println("접속자 수 : " + userList.size());
-		msgHM.put("msg", "현재 접속자 수 : " + userList.size() + "&#10;" + id + " 님이 입장하셨습니다.");
+		json.put("msg", "현재 접속자 수 : " + userList.size() + "&#10;" + id + " 님이 입장하셨습니다.");
 
-		JSONObject json = new JSONObject(msgHM);
 		for (String key : keys) {
 			Session s = userList.get(key);
-			s.getAsyncRemote().sendText(json.toJSONString());
+			s.getAsyncRemote().sendText(json.toString());
 		}
 		json.clear();
-		msgHM.clear();
 	}
 
 	@OnClose
@@ -45,20 +42,21 @@ public class ChatService {
 		System.out.println("Close");
 		System.out.println("접속자 수 : " + userList.size());
 		Set<String> keys = userList.keySet();
+		JSONObject json = new JSONObject();
 		
 		try {
 			for (String key : keys) {
 				if (session.getId().equals(userList.get(key).getId())) {
-					msgHM.put("msg", key + " 님이 나가셨습니다.");
-					JSONObject json = new JSONObject(msgHM);
-					
-					for (String _key : keys) {
-						Session s = userList.get(_key);
-						if(s.isOpen()) s.getAsyncRemote().sendText(json.toJSONString());
-					}
-					
+					json.put("msg", key + " 님이 나가셨습니다.");
 					userList.remove(key, session);
+					keys = userList.keySet();
+					break;
 				}
+			}
+			
+			for (String _key : keys) {
+				Session s = userList.get(_key);
+				if(s.isOpen()) s.getAsyncRemote().sendText(json.toString());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,22 +71,17 @@ public class ChatService {
 	@OnMessage
 	public void message(String message, Session session) {
 		try {
-			JSONParser parse = new JSONParser();
-			JSONObject json = (JSONObject) parse.parse(message);
 			Set<String> keys = userList.keySet();
+			JSONObject json = new JSONObject(message);
 
 			if (json.get("msg") != null) {
-				msgHM.put("id", json.get("id"));
-				msgHM.put("msg", json.get("msg"));
-				json = new JSONObject(msgHM);
 				
 				for (String key : keys) {
 					Session s = userList.get(key);
-					if(s.isOpen()) s.getAsyncRemote().sendText(json.toJSONString());
+					if(s.isOpen()) s.getAsyncRemote().sendText(json.toString());
 				}
 				
 				json.clear();
-				msgHM.clear();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

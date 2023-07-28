@@ -6,8 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.my.PJ.vo.BoardVO;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 @Mapper
 public interface BoardMapper {
 	
@@ -23,13 +21,14 @@ public interface BoardMapper {
 
 	public int insert(BoardVO b);
 
-	public int updateById(HttpServletRequest request);
+	public int update(BoardVO b);
 
-	public int replyInsert(HttpServletRequest request);
+	public int replyInsert(BoardVO b);
 	
 	public List<BoardVO> findList(String keyword, String kind);
 	
 	public int totalFindCount(String keyword);
 	
 	public int viewcountUp (int idx);
+
 }

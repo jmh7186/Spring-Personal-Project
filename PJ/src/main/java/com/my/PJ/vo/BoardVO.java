@@ -14,7 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BoardVO {
-	String idx;
+	int idx;
 	String title;
 	String content;
 	int viewcount;

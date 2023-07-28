@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.my.PJ.service.*;
 import com.my.PJ.vo.*;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -36,15 +34,17 @@ public class FrontController {
 	@GetMapping(value = { "/", "/index" })
 	public ModelAndView mvIndex() {
 		ModelAndView mv = new ModelAndView();
+		
 		mv.addObject("mainpage", "home/main.jsp");
 		mv.addObject("asidepage", "home/aside.jsp");
 		mv.setViewName("index");
 		return mv;
 	}
-
+	////////////////////////////////////////////////////////////////////////////////로그인/로그아웃
 	@GetMapping("/member/login")
 	public ModelAndView mvLogin() {
 		ModelAndView mv = new ModelAndView();
+		
 		mv.addObject("mainpage", "/member/login.jsp");
 		mv.setViewName("index");
 		return mv;
@@ -66,16 +66,17 @@ public class FrontController {
 		mv.setViewName("index");
 		return mv;
 	}
-
 	@GetMapping("/logoutProc")
 	public ModelAndView mvLogoutProc(HttpSession session) {
 		ModelAndView mv = new ModelAndView();
+		
 		session.invalidate();
 		mv.addObject("mainpage", "home/main.jsp");
 		mv.setViewName("index");
 		return mv;
 	}
-
+	////////////////////////////////////////////////////////////////////////////////로그인/로그아웃
+	////////////////////////////////////////////////////////////////////////////////멤버
 	@GetMapping("/member/view")
 	public ModelAndView mvMemberView(String id) {
 		ModelAndView mv = new ModelAndView();
@@ -89,6 +90,7 @@ public class FrontController {
 	@GetMapping("/member/deleteProc")
 	public ModelAndView mvMemberDeleteProc() {
 		ModelAndView mv = new ModelAndView();
+		
 		mv.addObject("mainpage", "member/deleteProc.jsp");
 		mv.setViewName("index");
 		return mv;
@@ -109,6 +111,7 @@ public class FrontController {
 	@GetMapping("/signup/contract")
 	public ModelAndView mvContract() {
 		ModelAndView mv = new ModelAndView();
+		
 		mv.addObject("mainpage", "member/contract.jsp");
 		mv.setViewName("index");
 		return mv;
@@ -117,6 +120,7 @@ public class FrontController {
 	@GetMapping("/signup")
 	public ModelAndView mvSignup() {
 		ModelAndView mv = new ModelAndView();
+		
 		mv.addObject("mainpage", "member/signup.jsp");
 		mv.setViewName("index");
 		return mv;
@@ -125,6 +129,7 @@ public class FrontController {
 	@PostMapping("/signup/signupProc")
 	public ModelAndView mvSignupProc(String id, String pwd, String hp, String adr) {
 		ModelAndView mv = new ModelAndView();
+		
 		mv.addObject("mainpage", "member/signupProc.jsp");
 		int result = mbservice.insert(new MemberVO(id,pwd,hp,adr));
 		
@@ -138,14 +143,16 @@ public class FrontController {
 		mv.setViewName("index");
 		return mv;
 	}
-	
+	////////////////////////////////////////////////////////////////////////////////멤버
+	////////////////////////////////////////////////////////////////////////////////지도
 	@GetMapping("/map")
 	public ModelAndView map(ModelAndView mv) {
 		mv.addObject("mainpage", "map/map.jsp");
 		mv.setViewName("index");
 		return mv;
 	}
-	
+	////////////////////////////////////////////////////////////////////////////////지도
+	////////////////////////////////////////////////////////////////////////////////전화번호부
 	@GetMapping(value = {"/phonebook/pagelist/{page}","/phonebook/pagelist"})
 	public ModelAndView pbList(ModelAndView mv, @PathVariable(required = false, value = "page") Integer page) {
 		if(page==null) {
@@ -196,9 +203,11 @@ public class FrontController {
 		mv.setViewName("index");
 		return mv;
 	}
+	//////////////////////////////////////////////////////////////////////////////전화번호부
+	//////////////////////////////////////////////////////////////////////////////게시판
 	
 	@GetMapping("/board/pagelist")
-	public ModelAndView boList(ModelAndView mv, @RequestParam(name = "page", defaultValue = "1", required = false) int currentPage) {
+	public ModelAndView boList(ModelAndView mv, @RequestParam(name = "page", defaultValue = "1") int currentPage) {
 		mv.addObject("mainpage","board/pageList.jsp");
 		mv.addObject("pagelist",boservice.pageList(currentPage, 10));
 		mv.setViewName("index");
@@ -222,15 +231,34 @@ public class FrontController {
 	}
 	
 	@PostMapping("/board/writeProc")
-	@ResponseBody
 	public ModelAndView boInsertProc(	ModelAndView mv,
 										@RequestPart("writeid") String writeid,
 										@RequestPart("title") String title,
 										@RequestPart("content") String content,
-										@RequestPart("file") MultipartFile mf  ) {
-		boservice.insert(writeid,title,content,mf);
+										@RequestPart(name = "file", required = false) MultipartFile mf) {
+		int _idx = boservice.insert(writeid,title,content,mf);
+		mv.setViewName("redirect:/board/findone?idx="+_idx);
+		return mv;
+	}
+	
+	@PostMapping("/board/updateProc")
+	public ModelAndView boUpdateProc(	ModelAndView mv,
+										@RequestPart("idx") String idx,
+										@RequestPart("writeid") String writeid,
+										@RequestPart("title") String title,
+										@RequestPart("content") String content,
+										@RequestPart(name = "file", required = false) MultipartFile mf) {
+		int _idx = boservice.update(Integer.parseInt(idx),writeid,title,content,mf);
+		mv.setViewName("redirect:/board/findone?idx="+_idx);
+		return mv;
+	}
+	
+	@GetMapping("/board/deleteProc")
+	public ModelAndView boDeleteProc(ModelAndView mv, @RequestParam int idx) {
+		boservice.deleteById(idx);
 		mv.setViewName("redirect:/board/pagelist");
 		return mv;
 	}
+	//////////////////////////////////////////////////////////////////////////////게시판
 	
 }

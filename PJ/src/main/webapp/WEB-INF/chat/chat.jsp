@@ -9,7 +9,7 @@
 </div>
 
 <script>
-	var ws = new WebSocket("ws://localhost:8080/chat/${sessionScope.id}");
+	var ws = new WebSocket("ws://localhost/chat/${sessionScope.id}");
 	ws.onopen = function(msg) {
 		console.log('Open');
 	}

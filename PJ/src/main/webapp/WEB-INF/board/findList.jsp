@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- pagelist라는 객체의 데이터만 표현(VIEW) -->
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +47,6 @@
 					</tr>
 				</thead>
 				<tbody>
-
 					<c:forEach var="b" items="${list}">
 						<c:choose>
 							<c:when test="${b.isdel!=1}">

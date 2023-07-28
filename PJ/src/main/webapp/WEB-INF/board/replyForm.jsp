@@ -19,7 +19,7 @@
 			<form action="/replyProc" method="post" enctype="multipart/form-data">
 
 				<lable for="writeid" hidden>작성자 ID</lable>
-				<input type="text" id="writeid" name="writeid" class="form-control" hidden>
+				<input type="text" id="writeid" name="writeid" class="form-control" hidden=true>
 				
 				<lable for="writename">작성자</lable>
 				<input type="text" id="writename" name="writename" class="form-control">
@@ -36,8 +36,8 @@
 				<button type="submit" class="btn btn-primary">답글게시</button>
 				<button type="button" class="btn btn-primary" onclick="history.back()">취소</button>
 
-				<input hidden type="text" name="parentid" value="${b.idx}">
-				<input hidden type="text" name="tab" value="${b.tab+1}">
+				<input hidden=true type="text" name="parentid" value="${b.idx}">
+				<input hidden=true type="text" name="tab" value="${b.tab+1}">
 			</form>
 		</div>
 	</main>

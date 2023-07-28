@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" errorPage="error.jsp"%>
+	pageEncoding="UTF-8"%>
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBicq2L-tbKrWepZ7ltFJrXrxxV3OtM9BA&callback=initMap"></script>
 <div id="maps" style="text-align: center;">
 	<h1>오시는 길</h1>

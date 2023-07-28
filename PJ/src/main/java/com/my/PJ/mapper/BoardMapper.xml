@@ -10,8 +10,18 @@
 		]]>
 	</select>
 	<select id="totalCount">select count(*) from board</select>
-	<insert id="insert">insert into board values(board_idx_seq.nextval, #{title},#{content},0,0,0,#{writeid},sysdate,#{filename, jdbcType=VARCHAR},0,'일반게시판')</insert>
-	<update id="updateById">update board set title=#{title}, content=#{content}, filename=#{filename, jdbcType=VARCHAR} where idx=#{idx}</update>
+	<insert id="insert">
+		insert into board values(board_idx_seq.nextval, #{title},#{content, jdbcType=CLOB},0,0,0,#{writeid},sysdate,#{filename, jdbcType=VARCHAR},0,'일반게시판')
+		<selectKey order="AFTER" keyColumn="idx" keyProperty="idx" resultType="int">
+		select board_idx_seq.currval idx from dual
+		</selectKey>
+	</insert>
+	<update id="update">
+		update board set title=#{title}, content=#{content, jdbcType=CLOB}, filename=#{filename, jdbcType=VARCHAR} where idx=#{idx}
+		<selectKey order="AFTER" keyColumn="idx" keyProperty="idx" resultType="int">
+		select idx from board where idx=#{idx}
+		</selectKey>
+	</update>
 	<insert id="replyInsert">insert into board values(board_idx_seq.nextval, #{title},#{content},0,#{writeid},#{parentid},#{tab},sysdate,#{filename, jdbcType=VARCHAR},0,'일반게시판')</insert>
 	<select id="findList">
 		<![CDATA[
