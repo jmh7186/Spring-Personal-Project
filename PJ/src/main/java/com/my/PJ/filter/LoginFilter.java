@@ -30,7 +30,11 @@ public class LoginFilter extends HttpFilter implements Filter {
 		HttpSession session = hsreq.getSession();
 		
 		if (session.getAttribute("id")==null){
-			if(!(hsreq.getRequestURI().contains("/member") || hsreq.getRequestURI().contains("/signup") || hsreq.getRequestURI().contains("/map") || hsreq.getRequestURI().contains("/resource"))) {
+			if(!(hsreq.getRequestURI().contains("/member") ||
+				hsreq.getRequestURI().contains("/signup") ||
+				hsreq.getRequestURI().contains("/map") ||
+				hsreq.getRequestURI().contains("/resource") ||
+				hsreq.getRequestURI().equals("/"))) {
 				hsreq.setAttribute("mainpage", "/member/login.jsp");
 				hsreq.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 				return; 

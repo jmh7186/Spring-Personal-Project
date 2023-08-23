@@ -6,10 +6,11 @@
 		<i class="fab fa-accusoft"></i>
 	</div>
 	<ul class="navbar_menu">
-		<li onclick="location.href='/phonebook/pagelist'">전화번호부</li>
+		<!-- <li onclick="location.href='/phonebook/pagelist'">전화번호부</li> -->
+		<li onclick="location.href='/overseas'">국가별 안전정보</li>
 		<li onclick="location.href='/gallary'">갤러리</li>
 		<li onclick="location.href='/board/pagelist'">게시판</li>
-		<li onclick="location.href='/chat'">채팅상담</li>
+		<li onclick="location.href='/chat'">채팅</li>
 		<li onclick="location.href='/map'">오시는 길</li>
 	</ul>
 	<ul class="navbar_icon">
@@ -18,7 +19,7 @@
 				<li onclick="location.href='/member/login'"><i	class="fas fa-user-plus"></i></li>
 			</c:when>
 			<c:otherwise>
-				<li>환영합니다. <a style="color: white" href="/member/view?id=${sessionScope.id}">${sessionScope.id}.</a>
+				<li>환영합니다. <a style="color: white" href="/member/view?id=${sessionScope.id}">${sessionScope.id}.</a><br>
 					<a style="color: white" href="/logoutProc">[로그아웃]</a>
 				</li>
 			</c:otherwise>

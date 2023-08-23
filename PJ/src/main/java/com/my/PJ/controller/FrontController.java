@@ -1,5 +1,13 @@
 package com.my.PJ.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -153,57 +161,58 @@ public class FrontController {
 	}
 	////////////////////////////////////////////////////////////////////////////////지도
 	////////////////////////////////////////////////////////////////////////////////전화번호부
-	@GetMapping(value = {"/phonebook/pagelist/{page}","/phonebook/pagelist"})
-	public ModelAndView pbList(ModelAndView mv, @PathVariable(required = false, value = "page") Integer page) {
-		if(page==null) {
-			page=1;
-		}
-		mv.addObject("mainpage", "phonebook/pageList.jsp");
-		mv.addObject("pblist", pbservice.pageList(page));
-		mv.setViewName("index");
-		return mv;
-	}
-	
-	@GetMapping("/phonebook/view")
-	public ModelAndView pbView(ModelAndView mv, @RequestParam("idx") String idx) {
-		mv.addObject("p", pbservice.findById(idx));
-		mv.addObject("mainpage", "phonebook/view.jsp");
-		mv.setViewName("index");
-		return mv;
-	}
-	
-	@PutMapping("/phonebook/update")
-	@ResponseBody
-	public int pbUpdate(@RequestBody PhonebookVO p) {
-		return pbservice.updateById(p);
-	}
-	
-	@GetMapping("/phonebook/insert")
-	public ModelAndView pbInsert(ModelAndView mv) {
-		mv.addObject("mainpage", "phonebook/insert.jsp");
-		mv.setViewName("index");
-		return mv;
-	}
-	
-	@PostMapping("/phonebook/insertProc")
-	@ResponseBody
-	public int pbInsertProc(@RequestBody PhonebookVO p) {
-		return pbservice.insert(p);
-	}
-	
-	@DeleteMapping("/phonebook/delete")
-	@ResponseBody
-	public int pbDelete(@RequestBody String idx) {
-		return pbservice.deleteById(idx);
-	}
-	
+//	@GetMapping(value = {"/phonebook/pagelist/{page}","/phonebook/pagelist"})
+//	public ModelAndView pbList(ModelAndView mv, @PathVariable(required = false, value = "page") Integer page) {
+//		if(page==null) {
+//			page=1;
+//		}
+//		mv.addObject("mainpage", "phonebook/pageList.jsp");
+//		mv.addObject("pblist", pbservice.pageList(page));
+//		mv.setViewName("index");
+//		return mv;
+//	}
+//	
+//	@GetMapping("/phonebook/view")
+//	public ModelAndView pbView(ModelAndView mv, @RequestParam("idx") String idx) {
+//		mv.addObject("p", pbservice.findById(idx));
+//		mv.addObject("mainpage", "phonebook/view.jsp");
+//		mv.setViewName("index");
+//		return mv;
+//	}
+//	
+//	@PutMapping("/phonebook/update")
+//	@ResponseBody
+//	public int pbUpdate(@RequestBody PhonebookVO p) {
+//		return pbservice.updateById(p);
+//	}
+//	
+//	@GetMapping("/phonebook/insert")
+//	public ModelAndView pbInsert(ModelAndView mv) {
+//		mv.addObject("mainpage", "phonebook/insert.jsp");
+//		mv.setViewName("index");
+//		return mv;
+//	}
+//	
+//	@PostMapping("/phonebook/insertProc")
+//	@ResponseBody
+//	public int pbInsertProc(@RequestBody PhonebookVO p) {
+//		return pbservice.insert(p);
+//	}
+//	
+//	@DeleteMapping("/phonebook/delete")
+//	@ResponseBody
+//	public int pbDelete(@RequestBody String idx) {
+//		return pbservice.deleteById(idx);
+//	}
+	//////////////////////////////////////////////////////////////////////////////전화번호부
+	//////////////////////////////////////////////////////////////////////////////채팅
 	@GetMapping("/chat")
 	public ModelAndView pbInsertProc(ModelAndView mv) {
 		mv.addObject("mainpage", "chat/chat.jsp");
 		mv.setViewName("index");
 		return mv;
 	}
-	//////////////////////////////////////////////////////////////////////////////전화번호부
+	//////////////////////////////////////////////////////////////////////////////채팅
 	//////////////////////////////////////////////////////////////////////////////게시판
 	
 	@GetMapping("/board/pagelist")
@@ -260,5 +269,52 @@ public class FrontController {
 		return mv;
 	}
 	//////////////////////////////////////////////////////////////////////////////게시판
+	//////////////////////////////////////////////////////////////////////////////국가별 안전정보
+	@GetMapping("/overseas")
+	public ModelAndView boDeleteProc(ModelAndView mv, @RequestParam(required = false) String pageNo, @RequestParam(required = false) String title) {
+		mv.addObject("mainpage","overseas/safetyinfo.jsp");
+		if(pageNo==null) mv.addObject("pageNo",1);
+		else mv.addObject("pageNo",pageNo);
+		mv.addObject("title",title);
+		mv.setViewName("index");
+		return mv;
+	}
+	//////////////////////////////////////////////////////////////////////////////국가별 안전정보
+	//////////////////////////////////////////////////////////////////////////////갤러리
+	@GetMapping("/gallary")
+	public ModelAndView gallaryView(ModelAndView mv) {
+		File dir = new File("C:/Users/admin/git/Spring-Personal-Project/PJ/src/main/resources/static/uploadPics/");
+		File[] files = dir.listFiles();
+		List<String> lis = new ArrayList<String>();
+		for(File f:files) {
+			lis.add(f.getName());
+		}
+		mv.addObject("mainpage","overseas/gallary.jsp");
+		mv.addObject("pics",lis);
+		mv.setViewName("index");
+		return mv;
+	}
 	
+	@GetMapping("/gallary/upload")
+	public String gallaryUpload() {
+		return "overseas/gallaryupload";
+	}
+	
+	@PostMapping("/gallary/uploadproc")
+	@ResponseBody
+	public int gallaryUploadProc(ModelAndView mv, @RequestPart("pic") MultipartFile mf) {
+		if ( mf!=null && !(mf.isEmpty()) ) {
+			try {
+				String uploadDir = "C:/Users/admin/git/Spring-Personal-Project/PJ/src/main/resources/static/uploadPics/";
+				LocalDate ld = LocalDate.now();
+				String filename = ld.toString() +"_"+ mf.getOriginalFilename();
+				mf.transferTo(new File(uploadDir + filename));
+				return 1;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
+	//////////////////////////////////////////////////////////////////////////////갤러리
 }

@@ -6,7 +6,7 @@
 		<form action="/member/updateProc" method="POST" onsubmit="return confirmsignup()">
 			<div class="mb-3 mt-3">
 				<label>아이디:</label> <input type="text" class="form-control" id="idview" name="idview" disabled value="${member.mid}">
-				<label>아이디:</label> <input type="text" class="form-control" id="id" name="mid" hidden=true readonly value="${member.mid}">
+				<input type="text" class="form-control" id="id" name="mid" hidden=true readonly value="${member.mid}">
 			</div>
 			<div class="mb-3 mt-3">
 				<label>비밀번호:</label>
@@ -25,7 +25,7 @@
 			</div>
 			<div id="defaultBtns">
 				<button type="button" class="btn btn-primary" onclick="mbupdate()">수정</button>
-				<button type="button" class="btn btn-danger" onclick="mbdelete()">삭제</button>
+				<button type="button" class="btn btn-danger" onclick="mbdelete()">회원탈퇴</button>
 			</div>
 			<div id="updateBtns" hidden=true >
 				<button type="submit" class="btn btn-success">수정완료</button>
@@ -36,7 +36,7 @@
 	<script>
 	var pcon = true;
 	function mbdelete() {
-		var isok = confirm('삭제하시겠습니까?');
+		var isok = confirm('정말로 회원정보를 삭제하시겠습니까?');
 		if(isok) {
 			location.href='/member/deleteProc?id=${member.mid}';
 		}

@@ -54,8 +54,8 @@ public class ChatService {
 				}
 			}
 			
-			for (String _key : keys) {
-				Session s = userList.get(_key);
+			for (String key : keys) {
+				Session s = userList.get(key);
 				if(s.isOpen()) s.getAsyncRemote().sendText(json.toString());
 			}
 		} catch (Exception e) {
