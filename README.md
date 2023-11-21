@@ -1,7 +1,11 @@
 # ポートフォリオ By JO MINHYEOK
 Spring Bootベース WEB
 
-**<a href='https://joengie.iptime.org/' target='_blank'>リンク</a>**
+
+[リンク][]
+
+# link define
+[リンク]: http://127.0.0.1/
 
 ## 開発環境
 - **Java / JDK Version :** 17
