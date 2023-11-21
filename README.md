@@ -9,7 +9,8 @@ Spring Bootベース WEB
 - **Framework :** Spring Boot 3
 - **DB :** Oracle DB → H2 DB
 - **ORM :** MyBatis
-- *ログインサンプル :* `admin` `12341234`
+- *ログインサンプル :*
+`admin / 12341234` `admin2 / 12121212`
 
 ## 主要機能
 - **ログイン :** ＤＢ対照後登録されている情報と一致したらログインアクセス、セッションにログイン状態登録。
