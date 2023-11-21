@@ -7,7 +7,7 @@
 	</div>
 	<ul class="navbar_menu">
 		<!-- <li onclick="location.href='/phonebook/pagelist'">전화번호부</li> -->
-		<li onclick="location.href='/overseas'">各国旅行情報</li>
+		<li onclick="location.href='/overseas'">各国旅安全情報</li>
 		<li onclick="location.href='/gallary'">ギャラリー</li>
 		<li onclick="location.href='/board/pagelist'">掲示板</li>
 		<li onclick="location.href='/chat'">チャット</li>

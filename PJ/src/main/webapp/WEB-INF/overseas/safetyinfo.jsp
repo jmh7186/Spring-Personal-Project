@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <h3 id="loading" style="text-align: center; padding-top: 30px;">ただいま読み込んでいます。。。</h3>
 <div id="safetyinfo" hidden=true>
-	<h4>本ページでは韓国領事館からの各国旅行情報を提供します。</h4>
+	<h4>本ページでは韓国領事館からの各国旅安全情報を提供します。</h4>
 	<form>
 		<input type="text" name="pageNo" value="${pageNo}" hidden=true>
 		<input type="search" name="title" size="50" placeholder="題目・国家名で検索（韓国語のみ）" value="${title}">
