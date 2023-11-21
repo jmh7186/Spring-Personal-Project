@@ -1,7 +1,7 @@
 # ポートフォリオ By JO MINHYEOK
 Spring Bootベース WEB
 
-[リンク](joengie.iptime.org)
+[リンク](http://joengie.iptime.org/)
 
 ## 開発環境
 - **Java / JDK Version :** 17
