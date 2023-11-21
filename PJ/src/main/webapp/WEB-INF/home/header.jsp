@@ -11,7 +11,7 @@
 		<li onclick="location.href='/gallary'">ギャラリー</li>
 		<li onclick="location.href='/board/pagelist'">掲示板</li>
 		<li onclick="location.href='/chat'">チャット</li>
-		<li onclick="location.href='/map'">マップ</li>
+		<li onclick="location.href='/map'">アクセス</li>
 	</ul>
 	<ul class="navbar_icon">
 		<c:choose>
