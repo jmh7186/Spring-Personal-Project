@@ -1,5 +1,7 @@
 package com.my.PJ.chat;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -17,6 +19,7 @@ import jakarta.websocket.server.ServerEndpoint;
 @Component
 @ServerEndpoint("/chat/{id}")
 public class ChatService {
+	SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
 //	static Set<Session> sessions = new HashSet<Session>();
 	static HashMap<String, Session> userList = new HashMap<String, Session>();
 
@@ -27,8 +30,8 @@ public class ChatService {
 		Set<String> keys = userList.keySet();
 		JSONObject json = new JSONObject();
 
-		System.out.println("접속자 수 : " + userList.size());
-		json.put("msg", "현재 접속자 수 : " + userList.size() + "&#10;" + id + " 님이 입장하셨습니다.");
+		System.out.println("ユーザー数 : " + userList.size() + "名");
+		json.put("msg", "現在ユーザー数 : " + userList.size() + "名" + "&#10;" + id + " 様がご入場しました。");
 
 		for (String key : keys) {
 			Session s = userList.get(key);
@@ -40,14 +43,14 @@ public class ChatService {
 	@OnClose
 	public void close(Session session) {
 		System.out.println("Close");
-		System.out.println("접속자 수 : " + userList.size());
+		System.out.println("ユーザー数 : " + userList.size() + "名");
 		Set<String> keys = userList.keySet();
 		JSONObject json = new JSONObject();
 		
 		try {
 			for (String key : keys) {
 				if (session.getId().equals(userList.get(key).getId())) {
-					json.put("msg", key + " 님이 나가셨습니다.");
+					json.put("msg", key + " 様がご退場しました。");
 					userList.remove(key, session);
 					keys = userList.keySet();
 					break;
@@ -75,12 +78,15 @@ public class ChatService {
 			JSONObject json = new JSONObject(message);
 
 			if (json.get("msg") != null) {
-				
+				Date now = new Date();
+				json.put("time", sdf.format(now));
 				for (String key : keys) {
 					Session s = userList.get(key);
-					if(s.isOpen()) s.getAsyncRemote().sendText(json.toString());
+					if(s.isOpen()) {
+						s.getAsyncRemote().sendText(json.toString());
+					}
+					System.out.println(json.toString());
 				}
-				
 				json.clear();
 			}
 		} catch (Exception e) {

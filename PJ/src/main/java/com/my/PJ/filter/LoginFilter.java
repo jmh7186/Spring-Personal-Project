@@ -34,6 +34,10 @@ public class LoginFilter extends HttpFilter implements Filter {
 				hsreq.getRequestURI().contains("/signup") ||
 				hsreq.getRequestURI().contains("/map") ||
 				hsreq.getRequestURI().contains("/resource") ||
+				hsreq.getRequestURI().contains("/h2") ||
+				hsreq.getRequestURI().contains("/overseas") ||
+				hsreq.getRequestURI().contains("/gallary") ||
+				hsreq.getRequestURI().contains("/uploadPics") ||
 				hsreq.getRequestURI().equals("/"))) {
 				hsreq.setAttribute("mainpage", "/member/login.jsp");
 				hsreq.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);

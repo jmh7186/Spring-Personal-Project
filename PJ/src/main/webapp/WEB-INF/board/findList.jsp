@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일반 게시판</title>
+<title>一般掲示板</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
@@ -21,29 +21,29 @@
 <body>
 	<main>
 		<div class="container mt-3">
-			<h2>일반게시판</h2>
-			<div class="input-group mt-3 mb-3">
+			<h2>一般掲示板</h2>
+			<!-- <div class="input-group mt-3 mb-3">
 				<button name="kind" id="kind" type="button"
 					class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-					검색선택</button>
+					サーチ</button>
 				<div class="dropdown-menu">
 
-					<a class="dropdown-item" href="#" onclick="selkind('title')">제목</a> <a class="dropdown-item"
-						href="#" onclick="selkind('writeid')">글쓴이</a> <a class="dropdown-item" href="#" onclick="selkind('writeday')">날짜</a>
+					<a class="dropdown-item" href="#" onclick="selkind('title')">タイトル</a> <a class="dropdown-item"
+						href="#" onclick="selkind('writeid')">投稿者</a> <a class="dropdown-item" href="#" onclick="selkind('writeday')">投稿日</a>
 
 				</div>
 				<input type="text" class="form-control" id="search" name="search">
 				<input id="searchbtn" type="button" class="btn btn-info" value="검색" onclick="selfind()">
-			</div>
+			</div> -->
 
 			<table class="table">
 				<thead>
 					<tr>
-						<th>글번호</th>
-						<th>제목</th>
-						<th>글쓴이</th>
-						<th>날짜</th>
-						<th>조회수</th>
+						<th>文番号</th>
+						<th>タイトル</th>
+						<th>投稿者</th>
+						<th>投稿日</th>
+						<th>視聴数</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -64,7 +64,7 @@
 							</c:when>
 							<c:otherwise>
 								<tr style="color: gray;">
-									<td colspan="5">삭제된 글입니다.</td>
+									<td colspan="5">この文は削除されました。</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>
@@ -74,28 +74,28 @@
 			</table>
 
 			<button type="button" class="btn btn-success"
-				onclick="location.href='/writeForm'">글쓰기</button>
+				onclick="location.href='/writeForm'">投稿</button>
 		</div>
 	</main>
 </body>
 <script>
 	function selkind (kind) {
 		if (kind=='title') {
-			document.getElementById("kind").innerText='제목';
+			document.getElementById("kind").innerText='タイトル';
 		}else if (kind=='writeid') {
-			document.getElementById("kind").innerText='글쓴이';
+			document.getElementById("kind").innerText='投稿者';
 		}else if (kind=='writeday') {
-			document.getElementById("kind").innerText='날짜';
+			document.getElementById("kind").innerText='投稿日';
 		} 
 	}
 	function selfind () {
 		var kind = document.getElementById("kind").innerText;
 		var keyword = document.getElementById("search").value;
-		if (kind=='제목') {
+		if (kind=='タイトル') {
 			location.href="/findList?kind=title&keyword="+keyword;
-		}else if (kind=='글쓴이') {
+		}else if (kind=='タイトル') {
 			location.href="/findList?kind=writeid&keyword="+keyword;
-		}else if (kind=='날짜') {
+		}else if (kind=='投稿日') {
 			location.href="/findList?kind=writeday&keyword="+keyword;
 		}
 	}

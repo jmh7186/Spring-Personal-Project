@@ -1,20 +1,14 @@
 package com.my.PJ.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -39,7 +33,7 @@ public class FrontController {
 	@Autowired
 	BoardService boservice;
 
-	@GetMapping(value = { "/", "/index" })
+	@GetMapping(value = { "/", "/index"})
 	public ModelAndView mvIndex() {
 		ModelAndView mv = new ModelAndView();
 		
@@ -256,8 +250,9 @@ public class FrontController {
 										@RequestPart("writeid") String writeid,
 										@RequestPart("title") String title,
 										@RequestPart("content") String content,
+										@RequestPart(name = "file", required = false) String file,
 										@RequestPart(name = "file", required = false) MultipartFile mf) {
-		int _idx = boservice.update(Integer.parseInt(idx),writeid,title,content,mf);
+		int _idx = boservice.update(Integer.parseInt(idx),writeid,title,content,file,mf);
 		mv.setViewName("redirect:/board/findone?idx="+_idx);
 		return mv;
 	}
@@ -283,7 +278,7 @@ public class FrontController {
 	//////////////////////////////////////////////////////////////////////////////갤러리
 	@GetMapping("/gallary")
 	public ModelAndView gallaryView(ModelAndView mv) {
-		File dir = new File("C:/Users/admin/git/Spring-Personal-Project/PJ/src/main/resources/static/uploadPics/");
+		File dir = new File("src/main/resources/static/uploadPics/");
 		File[] files = dir.listFiles();
 		List<String> lis = new ArrayList<String>();
 		for(File f:files) {
@@ -305,7 +300,7 @@ public class FrontController {
 	public int gallaryUploadProc(ModelAndView mv, @RequestPart("pic") MultipartFile mf) {
 		if ( mf!=null && !(mf.isEmpty()) ) {
 			try {
-				String uploadDir = "C:/Users/admin/git/Spring-Personal-Project/PJ/src/main/resources/static/uploadPics/";
+				String uploadDir = "C:/Users/JoEngie/git/Spring-Personal-Project/PJ/src/main/resources/static/uploadPics/";
 				LocalDate ld = LocalDate.now();
 				String filename = ld.toString() +"_"+ mf.getOriginalFilename();
 				mf.transferTo(new File(uploadDir + filename));

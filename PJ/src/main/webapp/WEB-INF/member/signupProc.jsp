@@ -2,10 +2,10 @@
     pageEncoding="UTF-8"%>
 <script>
 	if(${result}==-1) {
-		alert('아이디가 중복됩니다.');
+		alert('IDが重複されます。');
 		history.back();
 	}else {
-		alert('오류가 발생했습니다.');
+		alert('エラーが発生し処理に失敗しました。');
 		location.href="/member/login";
 	}
 </script>

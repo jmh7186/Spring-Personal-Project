@@ -18,12 +18,12 @@
 </head>
 <body>
 	<div id="form">
-		<h2>사진 업로드</h2>
+		<h2>写真アップロード</h2>
 		<img id="preview">
 		<form id="picform" action="/gallary/uploadproc" method="POST" enctype="multipart/form-data" onsubmit="return validate()">
 			<input type="file" id="pic" name="pic" accept="image/*" onchange="preview(this)" value=""><br>
-			<input type="button" onclick="picSubmit()" value="게시">
-			<input type="button" onclick="window.close()" value="취소">
+			<input type="button" onclick="picSubmit()" value="アップロード">
+			<input type="button" onclick="window.close()" value="キャンセル">
 		</form>
 	</div>
 </body>
@@ -42,7 +42,7 @@
 				document.getElementById('preview').src = "";
 			}
 		}else {
-			alert('이미지 파일만 업로드 가능합니다.');
+			alert('イメージファイルのみアップロード可能です。');
 			document.getElementById('preview').src = "";
 			input.value = "";
 		}
@@ -51,7 +51,7 @@
 	function validate() {
 		var filename = document.getElementById("pic").value;
 		if(filename=="") {
-			alert('이미지가 선택되지 않았습니다.');
+			alert('ファイルが選択されていません。');
 			return false;
 		}else {
 			return true;
@@ -69,10 +69,10 @@
 	    .then(resp => {return resp.text();})
 	    .then(text => {
 	    	if(text==1) {
-	    		alert('정상적으로 게시되었습니다.');
+	    		alert('アップロードしました。');
 	    		window.close();
 	    	}else {
-	    		alert('오류가 발생하였습니다.');
+	    		alert('エラーが発生しました。');
 	    		location.reload();
 	    	}
 	    });

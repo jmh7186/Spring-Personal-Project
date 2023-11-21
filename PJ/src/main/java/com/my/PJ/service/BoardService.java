@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.my.PJ.mapper.BoardMapper;
@@ -69,7 +70,7 @@ public class BoardService {
 		b.setContent(content);
 		if ( mf!=null && !(mf.isEmpty()) ) {
 			try {
-				String uploadDir = "C:/Users/admin/git/Spring-Personal-Project/PJ/src/main/resources/static/uploadFiles/";
+				String uploadDir = "C:/Users/JoEngie/git/Spring-Personal-Project/PJ/src/main/resources/static/uploadFiles/";
 				String filename = mf.getOriginalFilename();
 				mf.transferTo(new File(uploadDir + filename));
 				b.setFilename(filename);
@@ -85,18 +86,19 @@ public class BoardService {
 		return b.getIdx();
 	}
 
-	public int update(int idx, String writeid, String title, String content, MultipartFile mf) {
+	public int update(int idx, String writeid, String title, String content, String file, MultipartFile mf) {
 		BoardVO b = new BoardVO();
 		b.setIdx(idx);
 		b.setWriteid(writeid);
 		b.setTitle(title);
 		b.setContent(content);
+		b.setFilename(file);
 		if ( mf!=null && !(mf.isEmpty()) ) {
 			try {
-				String uploadDir = "C:/Users/admin/git/Spring-Personal-Project/PJ/src/main/resources/static/uploadFiles/";
-				String filename = mf.getOriginalFilename();
-				mf.transferTo(new File(uploadDir + filename));
-				b.setFilename(filename);
+				String uploadDir = "C:/Users/JoEngie/git/Spring-Personal-Project/PJ/src/main/resources/static/uploadFiles/";
+				String originalFilename = mf.getOriginalFilename();
+				mf.transferTo(new File(uploadDir + originalFilename));
+				b.setFilename(originalFilename);
 				mapper.update(b);
 				return b.getIdx(); // 수정된 게시글 IDX번호를 리턴함
 			} catch (IOException e) {

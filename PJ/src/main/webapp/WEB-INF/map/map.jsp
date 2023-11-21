@@ -2,13 +2,13 @@
 	pageEncoding="UTF-8"%>
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBicq2L-tbKrWepZ7ltFJrXrxxV3OtM9BA&callback=initMap"></script>
 <div id="maps" style="text-align: center;">
-	<h1>오시는 길</h1>
+	<h1>キャル株式会社</h1>
 	<div id="googlemap" style="width: 70%; height: 500px; margin: 0 auto;"></div>
-	<h3>서울특별시 중랑구 봉화산로 56<br>중랑역 2번출구에서 도보 3분</h3>
+	<h3>〒542-0081<br>大阪府大阪市中央区南船場4丁目４番２１号<br>TODA BUILDING 心斎橋 １２F</h3>
 </div>
 <script>
 	function initMap() {
-		const myLatlng = { lat: 37.60144628299837, lng: 127.08063467292041 };
+		const myLatlng = { lat: 34.675820, lng: 135.4999 };
 		const map = new google.maps.Map(document.getElementById("googlemap"), {
 			center : myLatlng,
 			zoom : 18
@@ -16,7 +16,7 @@
 		new google.maps.Marker({
 		    position: myLatlng,
 		    map,
-		    title:"대우직업능력개발원"
+		    title:"キャル株式会社"
 		});
 	}
 	

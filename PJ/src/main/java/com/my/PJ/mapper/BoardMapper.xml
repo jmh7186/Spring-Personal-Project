@@ -6,14 +6,19 @@
 	<delete id="deleteById">update board set isdel=1 where idx=#{idx}</delete>
 	<select id="findPage">
 		<![CDATA[
+		select * from (select rownum num, t.* from (select * from board order by idx desc) t where rownum<=#{endRow} order by rownum desc) where rownum <= #{countPerPage} order by num asc
+		]]>
+		<!--
+		<![CDATA[
 		select * from (select rownum num, t.* from (select * from board start with parentid=0 connect by prior idx=parentid order siblings by tab asc,idx desc) t where rownum<=#{endRow} order by rownum desc) where rownum <= #{countPerPage} order by num asc
 		]]>
+		-->
 	</select>
 	<select id="totalCount">select count(*) from board</select>
 	<insert id="insert">
-		insert into board values(board_idx_seq.nextval, #{title},#{content, jdbcType=CLOB},0,0,0,#{writeid},sysdate,#{filename, jdbcType=VARCHAR},0,'일반게시판')
+		insert into board (TITLE,CONTENT,VIEWCOUNT,PARENTID,TAB,WRITEID,WRITEDAY,FILENAME,ISDEL,KIND) values(#{title, jdbcType=VARCHAR},#{content, jdbcType=CLOB},0,0,0,#{writeid},CURRENT_TIMESTAMP(),#{filename, jdbcType=VARCHAR},0,'일반게시판')
 		<selectKey order="AFTER" keyColumn="idx" keyProperty="idx" resultType="int">
-		select board_idx_seq.currval idx from dual
+		select max(idx) from board
 		</selectKey>
 	</insert>
 	<update id="update">
@@ -22,11 +27,18 @@
 		select idx from board where idx=#{idx}
 		</selectKey>
 	</update>
-	<insert id="replyInsert">insert into board values(board_idx_seq.nextval, #{title},#{content},0,#{writeid},#{parentid},#{tab},sysdate,#{filename, jdbcType=VARCHAR},0,'일반게시판')</insert>
+	
+<!--	<insert id="replyInsert">insert into board (TITLE,CONTENT,VIEWCOUNT,PARENTID,TAB,WRITEID,WRITEDAY,FILENAME,ISDEL,KIND) values(#{title, jdbcType=VARCHAR},#{content, jdbcType=CLOB},0,#{writeid},#{parentid},#{tab},CURRENT_TIMESTAMP(),#{filename, jdbcType=VARCHAR},0,'일반게시판')</insert> -->
+	
 	<select id="findList">
+		<![CDATA[
+		select * from (select rownum num, t.* from (select * from board order by idx desc) t order by rownum desc) where #{kind} like '%'||#{keyword}||'%' order by num asc
+		]]>
+		<!--
 		<![CDATA[
 		select * from (select rownum num, t.* from (select * from board start with parentid=0 connect by prior idx=parentid order siblings by tab asc,idx desc) t order by rownum desc) where #{kind} like '%'||#{keyword}||'%' order by num asc
 		]]>
+		-->
 	</select>
 	<select id="totalFindCount">select count(*) from board where title like '%'||#{keyword}||'%'</select>
 	<update id="viewcountUp">update board set viewcount=viewcount+1 where idx=#{idx}</update>

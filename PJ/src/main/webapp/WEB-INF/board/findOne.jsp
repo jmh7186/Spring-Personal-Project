@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일반 게시판</title>
+<title>一般掲示板</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <link rel="stylesheet"
@@ -14,36 +14,40 @@
 <body>
 	<main>
 		<div class="container mt-3">
-			<h2 id="headertitle">글 상세보기[수정/삭제/댓글달기]-조회수${b.viewcount}</h2>
+			<h2 id="headertitle">${b.title}</h2>
 			<form action="/board/updateProc" method="post"
 				enctype="multipart/form-data">
 
-				<lable for="idx">글번호:</lable>
+				<lable for="idx">文番号</lable>
 				<input type="text" id="idx" name="idx" class="form-control" readonly value="${b.idx}">
 
-				<lable for="writeName">작성자</lable>
+				<lable for="writeName">投稿者</lable>
 				<input type="text" id="writeid" name="writeid" class="form-control" readonly value="${b.writeid}">
 
-				<lable for="title">제목</lable>
-				<input type="text" id="title" name="title" class="form-control" readonly value="${b.title}">
+				<lable hidden for="title">제목</lable>
+				<input hidden type="text" id="title" name="title" class="form-control" readonly value="${b.title}">
 
-				<lable for="content">내용</lable>
+				<lable for="content">内容</lable>
 				<input type="text" id="content" name="content" class="form-control" readonly value="${b.content}">
 
-				<lable for="file">첨부파일</lable>
-				<input type="text" id="file" name="file" class="form-control" readonly value="${b.filename}">
-				<input type="button" id="reupbtn" value="파일 재업로드" hidden=true >
+				<lable for="file">ファイル添付</lable>
+				<input type=text id="file" name="file" class="form-control" readonly value="${b.filename}">
+				
+				<br>
+				<input type="button" class="btn btn-info" id="reupbtn" value="ファイルアップロード" hidden=true >
+				<br>
+				
 				<br>
 				<div id="defaultBtns">
-					<input type="button" class="btn btn-primary" value="수정">
-					<input type="button" class="btn btn-primary" value="삭제">
-					<input type="button" class="btn btn-primary" value="댓글쓰기">
-					<input type="button" class="btn btn-primary" value="뒤로">
-					<input type="button" class="btn btn-info" id="fileopen" value="첨부파일 열기" hidden=true>
+					<input type="button" class="btn btn-primary" value="修正">
+					<input type="button" class="btn btn-primary" value="削除">
+					<!-- <input type="button" class="btn btn-primary" value="댓글쓰기"> -->
+					<input type="button" class="btn btn-primary" value="戻る">
+					<input type="button" class="btn btn-info" id="fileopen" value="ファイルオープン" hidden=true>
 				</div>
 				<div id="updateBtns" hidden=true>
-					<input type="submit" class="btn btn-primary" value="수정하기">
-					<input type="button" class="btn btn-danger" value="취소">
+					<input type="submit" class="btn btn-primary" value="修正完了">
+					<input type="button" class="btn btn-danger" value="キャンセル">
 				</div>
 			</form>
 		</div>
@@ -57,28 +61,28 @@
 	}
 
 	document.getElementById("defaultBtns").addEventListener('click',function (event) {
-		if (event.target.value=="수정") {
+		if (event.target.value=="修正") {
 			document.getElementById("title").readOnly = false;
 			document.getElementById("content").readOnly = false;
 			document.getElementById("defaultBtns").hidden = true;
 			document.getElementById("updateBtns").hidden = false;
 			document.getElementById("reupbtn").hidden = false;
-		}else if (event.target.value=="삭제") {
-			var isok = confirm("삭제할까요?");
+		}else if (event.target.value=="削除") {
+			var isok = confirm("削除しますか？");
 			if(isok) {
 				location.href="/board/deleteProc?idx=${b.idx}";
 			}
-		}else if (event.target.value=="댓글쓰기") {
-			location.href="/board/replyForm?idx=${b.idx}";
-		}else if (event.target.value=="뒤로") {
+		/* }else if (event.target.value=="댓글쓰기") {
+			location.href="/board/replyForm?idx=${b.idx}"; */
+		}else if (event.target.value=="戻る") {
 			location.href="/board/pagelist?page=${param.page}";
-		}else if (event.target.value=="첨부파일 열기") {
+		}else if (event.target.value=="ファイルオープン") {
 			window.open("/uploadFiles/${b.filename}", "_blank", "width=500, height=500");
 		}
 	});
 	
 	document.getElementById("updateBtns").addEventListener('click',function (event) {
-		if(event.target.value=="취소") {
+		if(event.target.value=="キャンセル") {
 			 location.reload();
 		}
 	});

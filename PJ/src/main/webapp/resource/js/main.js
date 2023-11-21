@@ -2,19 +2,19 @@ function isChecked() {
 	if (document.getElementById("checkbox").checked) {
 		location.href = '/signup';
 	} else {
-		alert('약관 동의에 체크해주세요.');
+		alert('規約に同意しなければ続けられません。');
 		return;
 	}
 }
 
 function loginValidate() {
 	if (document.getElementById("id").value == "") {
-		alert('아이디 칸이 비어있습니다.')
+		alert('IDを入力してください。')
 		document.getElementById("id").focus();
 		return false;
 	}
 	if (document.getElementById("pwd").value == "") {
-		alert('비밀번호 칸이 비어있습니다.');
+		alert('パスワードを入力してください。');
 		document.getElementById("pwd").focus();
 		return false;
 	}
@@ -24,19 +24,19 @@ function loginValidate() {
 function confirmpwd() {
 	var isTrue;
 	if (document.getElementById("pwd").value.length < 8 || document.getElementById("pwd").value.length > 20) {
-		alert('비밀번호는 8자 이상 20자 이하여야 합니다.')
+		alert('パスワードは8文字以上２０文字以下でなければなりません。')
 		document.getElementById("pwd").focus();
 		isTrue = false;
 		return !!(isTrue);
 	}
 	if (document.getElementById("repwd").value != document.getElementById("pwd").value) {
-		alert('비밀번호 확인이 일치하지 않습니다.')
+		alert('パスワードが一致していません。')
 		document.getElementById("repwd").focus();
 		isTrue = false;
 		return !!(isTrue);
 	} else {
-		alert('비밀번호가 일치합니다.');
-		document.getElementById("pcon").value = "일치함";
+		alert('パスワードが一致しています。');
+		document.getElementById("pcon").value = "完了";
 		document.getElementById("pcon").disabled = true;
 		document.getElementById("repwd").disabled = true;
 		document.getElementById("pwd").readOnly = true;
@@ -48,27 +48,27 @@ function confirmpwd() {
 function confirmsignup() {
 	//공란확인
 	if (document.getElementById("id").value == "") {
-		alert('아이디 칸이 비어있습니다.')
+		alert('IDを入力してください。')
 		document.getElementById("id").focus();
 		return false;
 	}
 	if (document.getElementById("id").value.length < 5 || document.getElementById("id").value.length > 12) {
-		alert('아이디는 5자 이상 12자 이하여야 합니다.')
+		alert('IDは５文字以上１２文字以下でなければなりません。')
 		document.getElementById("id").focus();
 		return false;
 	}
 	if (document.getElementById("pwd").value == "") {
-		alert('비밀번호 칸이 비어있습니다.')
+		alert('パスワードを入力してください。')
 		document.getElementById("pwd").focus();
 		return false;
 	}
 	if (document.getElementById("hp").value == "") {
-		alert('전화번호 칸이 비어있습니다.')
+		alert('携帯電話を入力してください。')
 		document.getElementById("hp").focus();
 		return false;
 	}
 	if (!(pcon)) {
-		alert('비밀번호 검증을 하지 않았습니다.')
+		alert('パスワード検査を行ってください。')
 		document.getElementById("repwd").focus();
 		return false;
 	}
